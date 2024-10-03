@@ -1,0 +1,60 @@
+from dash import Input, Output
+import plotly.express as px
+from data_loader import load_data
+
+# Carregar os dados
+df_rj_2024 = load_data('dados/perfil_eleitorado_2024.csv')
+
+def filter_by_rj(df):
+    """Função auxiliar para filtrar dados do Rio de Janeiro"""
+    return df[df['SG_UF'] == 'RJ']
+
+def clean_column_values(df, col_name):
+    """Função auxiliar para normalizar valores de colunas"""
+    return df[col_name].str.strip().str.upper()  
+
+def register_analfabetos_below_20_callback(app):
+    @app.callback(
+        Output('analfabetos-below-20-grafico', 'figure'),
+        Output('variacao-percentual-below-20-text', 'children'),
+        Input('analfabetos-below-20-grafico', 'id')  
+    )
+    def update_analfabetos_below_20_grafico(_):
+        try:
+            # Limpar e normalizar os dados
+            df_rj_2024['DS_GRAU_ESCOLARIDADE'] = clean_column_values(df_rj_2024, 'DS_GRAU_ESCOLARIDADE')
+            df_rj_2024['DS_FAIXA_ETARIA'] = clean_column_values(df_rj_2024, 'DS_FAIXA_ETARIA')
+            
+            # Filtrar os jovens de 20 anos ou menos
+            jovens_below_20 = filter_by_rj(df_rj_2024)[
+                df_rj_2024['DS_FAIXA_ETARIA'].isin(['16 ANOS', '17 ANOS', '18 A 20 ANOS'])
+            ]
+            total_jovens_below_20 = jovens_below_20.shape[0]
+
+            # Filtrar os analfabetos de 20 anos ou menos
+            analfabetos_below_20 = jovens_below_20[
+                jovens_below_20['DS_GRAU_ESCOLARIDADE'] == 'ANALFABETO'
+            ]
+            total_analfabetos_below_20 = analfabetos_below_20.shape[0]
+
+            # Verifique se os totais são válidos antes de criar o gráfico
+            if total_jovens_below_20 == 0:
+                return {}, "Não há dados suficientes para calcular a variação percentual."
+            
+            # Criar o gráfico de barras
+            fig = px.bar(
+                x=['Jovens de 20 Anos ou Menos', 'Analfabetos de 20 Anos ou Menos'],
+                y=[total_jovens_below_20, total_analfabetos_below_20],
+                title="Total de Jovens de 20 Anos ou Menos e Analfabetos no RJ (2024)",
+                labels={'x': 'Categoria', 'y': 'Número de Indivíduos'},
+            )
+
+            # Calcular a porcentagem de analfabetos de 20 anos ou menos
+            porcentagem_analfabetos = (total_analfabetos_below_20 / total_jovens_below_20 * 100)
+            texto_variacao = f"Analfabetos de 20 anos ou menos representam {porcentagem_analfabetos:.2f}% da quantidade total de jovens."
+
+            return fig, texto_variacao
+
+        except Exception as e:
+            print(f"Erro no callback 'analfabetos_below_20': {e}")
+            return {}, 'Erro ao calcular a variação percentual.'
