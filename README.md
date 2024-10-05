@@ -4,14 +4,16 @@ Este projeto foi desenvolvido para manipulação e visualização de perfis de e
 
 ## Objetivo
 
-Ainda por vir
+
 
 ## Ferramentas Utilizadas
 
 - **Pandas**: Usado para carregar e manipular dados. Pandas oferece uma maneira poderosa e flexível de trabalhar com dados tabulares, facilitando a limpeza, filtragem, agregação e outras operações comuns em análise de dados.
     
 - **Matplotlib**: Usado para criar gráficos e visualizações. Matplotlib é uma biblioteca completa e personalizável, ideal para criar gráficos, desde os mais simples até os mais complexos.
-    
+
+- **Dash**: Usado para criar o dashboard.
+
 
 Fontes: Google, Youtube.
 ## Requisitos
