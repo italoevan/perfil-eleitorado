@@ -2,14 +2,15 @@ import 'dart:io';
 
 void main(List<String> arguments) async {
   // Verifica se foi passado um argumento para a mensagem de commit
-  var commitMessage = arguments.isNotEmpty ? arguments.join(' ') : 'Atualização automática';
+  var commitMessage =
+      arguments.isNotEmpty ? arguments.join(' ') : 'Atualização automática';
 
   // Verifica se há mudanças no diretório de trabalho
   var statusResult = await Process.run('git', ['status', '--porcelain']);
-  
+
   if (statusResult.stdout.toString().trim().isEmpty) {
     print('Nada para commitar. O diretório está limpo.');
-    exit(0);  // Sai do script se não houver mudanças
+    exit(0); // Sai do script se não houver mudanças
   }
 
   // Executa o comando git add .
@@ -19,7 +20,7 @@ void main(List<String> arguments) async {
   await _runCommand('git', ['commit', '-m', commitMessage]);
 
   // Executa o comando git push
-  await _runCommand('git', ['push', 'origin', 'main']);
+  await _runCommand('git', ['push', 'origin', 'master']);
 }
 
 Future<void> _runCommand(String command, List<String> args) async {
