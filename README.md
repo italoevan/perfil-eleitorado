@@ -1,10 +1,10 @@
 # Análise do Perfil Eleitorado 2024
 
-Este projeto foi desenvolvido para manipulação e visualização de perfis de eleitorados a partir de arquivos CSV baixados do site: https://dados.gov.br/dados/conjuntos-dados/eleitorado-2024. Utilizamos a biblioteca **Pandas** para o carregamento e manipulação dos dados e a **Matplotlib** para a criação de gráficos que ajudam a entender as informações coletadas.
+Este projeto foi desenvolvido para manipulação e visualização de perfis de eleitorados a partir de arquivos CSV baixados do site: https://dados.gov.br/dados/conjuntos-dados/eleitorado-2024. Utilizamos a biblioteca **Pandas** para o carregamento e manipulação dos dados, a **Matplotlib** para a criação de gráficos que ajudam a entender as informações coletadas e a **Dash** para criação e manipulação do dashboard
 
 ## Objetivo
 
-
+Reconhecer a quantidade de analfabetos que votam na região Rio de Janeiro, se baseando nos anos de 2024 e 2022 (não teve dados disponibilizados de 2023)
 
 ## Ferramentas Utilizadas
 

@@ -16,10 +16,10 @@ def load_data(arquivo_csv):
     df = df[colunas_relevantes]
 
     # Filtrar apenas os dados do Rio de Janeiro
-    df_rj = df[df['SG_UF'] == 'RJ']
+    df_rj = df[df['SG_UF'] == 'RJ'].copy()  # Use .copy() para evitar o SettingWithCopyWarning
 
     # Normalizar colunas necessárias
-    df_rj['DS_GRAU_ESCOLARIDADE'] = df_rj['DS_GRAU_ESCOLARIDADE'].str.strip().str.upper()
-    df_rj['DS_FAIXA_ETARIA'] = df_rj['DS_FAIXA_ETARIA'].str.strip().str.upper()
+    df_rj.loc[:, 'DS_GRAU_ESCOLARIDADE'] = df_rj['DS_GRAU_ESCOLARIDADE'].str.strip().str.upper()
+    df_rj.loc[:, 'DS_FAIXA_ETARIA'] = df_rj['DS_FAIXA_ETARIA'].str.strip().str.upper()
 
     return df_rj
